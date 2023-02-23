@@ -1,20 +1,18 @@
 version: "2"
 
 services:
-  pixidb:
-    image: 42crunch/pixi:datastore
+  db:
+    image: 42crunch/pixi:mongo
+    command: mongod --quiet
+    container_name: pixidb
     ports:
       - "27017:27017"
       - "28017:28017"
-    expose:
-      - "27017"
-      - "28017"
 
-  pixiapp:
-    image: 42crunch/pixi:v3
-    container_name: pixiapp
+  app:
+    image: 42crunch/pixi:v4.2
+    container_name: pixiapi
     ports:
-      - "8000:8000"
       - "8090:8090"
-    environment:
-      - MONGO_URL=mongodb://pixidb:27017/Pixidb
+    expose:
+      - 8090
